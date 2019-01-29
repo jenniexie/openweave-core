@@ -41,6 +41,7 @@ case "${BUILD_TARGET}" in
     linux-auto-gcc-check-happy)
         # run happy test
         sudo bash -c "source ${HOME}/ve/happy/bin/activate; make -f Makefile-Standalone DEBUG=1 TIMESTAMP=1 COVERAGE=1 BuildJobs=24 BLUEZ=1 check"
+        echo "please check happy-test-log/<UTC time> under link: https://storage.cloud.google.com/openweave"
         ;;
 
     linux-lwip-clang)

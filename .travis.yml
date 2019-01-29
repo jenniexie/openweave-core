@@ -73,5 +73,16 @@ matrix:
       env: BUILD_TARGET="linux-auto-gcc-check-happy"
     - name: "ESP32"
       env: BUILD_TARGET="esp32"
-
-
+deploy:
+  provider: gcs
+  access_key_id: GOOGEC53H3VNJVPVSRKDJLYB
+  secret_access_key:
+    secure: Ja53K6U0QG5gF/ilP+StPviBTngwu1sF7I0HfM7lapWd81fVon2dCQ3y0Aj4s0rq9cUcMcGvPvzhND8nh7johz3eFvgTYzMZ0dxUspCQ/EshkArlrZACYxlhxmnj51SssN736ZJ3SmeLTIP0mwP6pm03a5LvOmu8q3bmKNDTlaMb3dd4YrdjJ17dtNQLD69wUY6Vvg+/FHWXo5opbkGXKzH8klz0wK9IxqvDqNTXZ2MYiHsDSAf7d3YDUyNR1YZ90BKf2Ij6BRhYsltej3V4moFNuxXFOOt/ofaLTIfq8lC5Z0HeQGSgx4rXwSoTegE0I9XxBrZ8V4mRodlKljaW2jHsnmcKj0XwHouPuGtY/LbleivTX7BtzUWXinN5FJ4DnE5HcTxAhYemAOggWujPVabrAphDkPeV128JBughsfcspnG0zkqWqFZQA6NGXFa4EAtxWjIFBArsASBWWUC5SOLLRG/LxvKcQYKpKVr5VTRMptQEB+Q4iSOSwYPJEi8HB3yJ1PPLWV2EccDA9MSp+CK9EpWCJamkBh3hDl9g702yLjhttZ6wFssLMW/O9ag5lp83b3aSym8S13TpQLp6shJKQLn4SVFKrNtMgkqLAQhunQ9O+yVi37LfrAhDVrw4UB2E3mCDnUyi+64S9BjMjp+PojlI7M4G+8OK8cI89VE=
+  bucket: openweave
+  skip_cleanup: true
+  acl: public-read
+  upload-dir: happy-test-log/`TZ=":UTC" date +%Y-%m-%d-%H-%M-%S`
+  local-dir: "$TRAVIS_BUILD_DIR/build/x86_64-unknown-linux-gnu/src/test-apps/happy"
+  on:
+    all_branches: true
+    condition: "$BUILD_TARGET = linux-auto-gcc-check-happy"
