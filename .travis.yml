@@ -1,88 +1,62 @@
-#
-#    Copyright 2018 Google LLC. All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License");
-#    you may not use this file except in compliance with the License.
-#    You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS,
-#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#    See the License for the specific language governing permissions and
-#    limitations under the License.
-#
-
-#
-#    Description:
-#      This file is the Travis CI hosted, distributed continuous 
-#      integration configuration file for the OpenWeave Core library.
-#
-
 language: generic
-
 sudo: required
-
 before_install:
-  - .travis/before_install.sh
-
+- ".travis/before_install.sh"
 script:
-  - .travis/script.sh
-
+- ".travis/script.sh"
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
+- bash <(curl -s https://codecov.io/bash)
 matrix:
   include:
-    - name: "Linux with Defaults against GCC Distribution Sanity Check"
-      env: BUILD_TARGET="linux-auto-gcc-distcheck" CC="gcc"
-      os: linux
-      compiler: gcc
-    - name: "Linux with Defaults against GCC Coding Style Check"
-      env: BUILD_TARGET="linux-auto-gcc-lint" CC="gcc"
-      os: linux
-      compiler: gcc
-    - name: "Linux with Defaults against GCC Functional and Unit Tests"
-      env: BUILD_TARGET="linux-auto-gcc-check" CC="gcc"
-      os: linux
-      compiler: gcc
-    - name: "Linux with Defaults against clang/LLVM"
-      env: BUILD_TARGET="linux-auto-clang" CC="clang"
-      os: linux
-      compiler: clang
-    - name: "Linux with LwIP against GCC Functional and Unit Tests"
-      env: BUILD_TARGET="linux-lwip-gcc-check" CC="gcc"
-      os: linux
-      compiler: gcc
-    - name: "Linux with LWIP against clang/LLVM"
-      env: BUILD_TARGET="linux-lwip-clang" CC="clang"
-      os: linux
-      compiler: clang
-    - name: "OS X with Defaults against clang/LLVM"
-      env: BUILD_TARGET="osx-auto-clang" CC="clang"
-      os: osx
-      compiler: clang
-    - name: "OS X with LwIP against clang/LLVM"
-      env: BUILD_TARGET="osx-lwip-clang" CC="clang"
-      os: osx
-      compiler: clang
-    - name: "Linux with Defaults against GCC Network and Service (Happy) Tests"
-      os: linux
-      compiler: gcc
-      env: BUILD_TARGET="linux-auto-gcc-check-happy"
-    - name: "ESP32"
-      env: BUILD_TARGET="esp32"
+  - name: Linux with Defaults against GCC Distribution Sanity Check
+    env: BUILD_TARGET="linux-auto-gcc-distcheck" CC="gcc"
+    os: linux
+    compiler: gcc
+  - name: Linux with Defaults against GCC Coding Style Check
+    env: BUILD_TARGET="linux-auto-gcc-lint" CC="gcc"
+    os: linux
+    compiler: gcc
+  - name: Linux with Defaults against GCC Functional and Unit Tests
+    env: BUILD_TARGET="linux-auto-gcc-check" CC="gcc"
+    os: linux
+    compiler: gcc
+  - name: Linux with Defaults against clang/LLVM
+    env: BUILD_TARGET="linux-auto-clang" CC="clang"
+    os: linux
+    compiler: clang
+  - name: Linux with LwIP against GCC Functional and Unit Tests
+    env: BUILD_TARGET="linux-lwip-gcc-check" CC="gcc"
+    os: linux
+    compiler: gcc
+  - name: Linux with LWIP against clang/LLVM
+    env: BUILD_TARGET="linux-lwip-clang" CC="clang"
+    os: linux
+    compiler: clang
+  - name: OS X with Defaults against clang/LLVM
+    env: BUILD_TARGET="osx-auto-clang" CC="clang"
+    os: osx
+    compiler: clang
+  - name: OS X with LwIP against clang/LLVM
+    env: BUILD_TARGET="osx-lwip-clang" CC="clang"
+    os: osx
+    compiler: clang
+  - name: Linux with Defaults against GCC Network and Service (Happy) Tests
+    os: linux
+    compiler: gcc
+    env: BUILD_TARGET="linux-auto-gcc-check-happy"
+  - name: ESP32
+    env: BUILD_TARGET="esp32"
 deploy:
   provider: gcs
-  access_key_id: GOOGEC53H3VNJVPVSRKDJLYB
+  access_key_id: GOOGNPZYTVTEPZM5VBRAVVUU
   secret_access_key:
-    secure: Ja53K6U0QG5gF/ilP+StPviBTngwu1sF7I0HfM7lapWd81fVon2dCQ3y0Aj4s0rq9cUcMcGvPvzhND8nh7johz3eFvgTYzMZ0dxUspCQ/EshkArlrZACYxlhxmnj51SssN736ZJ3SmeLTIP0mwP6pm03a5LvOmu8q3bmKNDTlaMb3dd4YrdjJ17dtNQLD69wUY6Vvg+/FHWXo5opbkGXKzH8klz0wK9IxqvDqNTXZ2MYiHsDSAf7d3YDUyNR1YZ90BKf2Ij6BRhYsltej3V4moFNuxXFOOt/ofaLTIfq8lC5Z0HeQGSgx4rXwSoTegE0I9XxBrZ8V4mRodlKljaW2jHsnmcKj0XwHouPuGtY/LbleivTX7BtzUWXinN5FJ4DnE5HcTxAhYemAOggWujPVabrAphDkPeV128JBughsfcspnG0zkqWqFZQA6NGXFa4EAtxWjIFBArsASBWWUC5SOLLRG/LxvKcQYKpKVr5VTRMptQEB+Q4iSOSwYPJEi8HB3yJ1PPLWV2EccDA9MSp+CK9EpWCJamkBh3hDl9g702yLjhttZ6wFssLMW/O9ag5lp83b3aSym8S13TpQLp6shJKQLn4SVFKrNtMgkqLAQhunQ9O+yVi37LfrAhDVrw4UB2E3mCDnUyi+64S9BjMjp+PojlI7M4G+8OK8cI89VE=
+    secure: HuLb6u+5qGPtw/5EdIZFWiExU6LYv7iOG3ijChIsnnlkomITsvAKXnAiEfq4k5zXfDYKCSS52t6tNhFz3/dsQJbW1/UzRFCbWZ2aaNDL8Ffczo9Og3HiTguSj2ztKxxv3BRBHrhLFkj4uDWEqr3/lx6Q5cghOy0Q9c/dG0rWNSj+wBF6uZ7qK4FnU5xAxeha0cGz6bFKpwC2e5MuXnL8hlMn7Q3v7M935jrYzRCGCkhX4IFPtkCMJj0jbXislFjHHpp0CMHgZ5xG0cLoLCkWo0kM6Vtae53nCA8HeIyrdOq8Xkbkzanz3zdLeIwfs4gIUq7eVGRtJcsZADzlxiGwV3YKQaUm2V4TGALP03BtRwZHatLnbrlDyVxUciiTmkcZZxxxEeOoYyveFYqZfcd1XEGn2Tlwn1EjYTzuxj5AUzD/vr7LBQTnBZi2lGdVGrYohAuuwlyBU1OH4yNxZwjv59AUyMy5/fx9U8kivSd8TMb2twv5RJAlQtZ0M8JgWn1yEuIGuNEjm27IO5fLqqd6oZYNK/lUbZ2w3Kho6QgazeQHy3Gf01iWYuFOX6HsVxwUxYwmWCNyWbh0R/riDlhm7Uoaekal2leuPbAW+SMoGv73EtXY81A3X/r0VKL4g+8X3OePStI1nlYMsNzDhLOxShj4BedyrUMuw6W++zHvmDk=
   bucket: openweave
   skip_cleanup: true
   acl: public-read
   upload-dir: happy-test-log/`TZ=":UTC" date +%Y-%m-%d-%H-%M-%S`
   local-dir: "$TRAVIS_BUILD_DIR/build/x86_64-unknown-linux-gnu/src/test-apps/happy"
   on:
-    all_branches: true
+    repo: jenniexie/openweave-core
+    branch: feature/gcs
     condition: "$BUILD_TARGET = linux-auto-gcc-check-happy"
