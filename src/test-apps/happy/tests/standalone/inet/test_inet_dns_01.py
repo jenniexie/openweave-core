@@ -43,14 +43,9 @@ class test_inet_dns(unittest.TestCase):
         else:
             self.using_lwip = False
 
-        if self.using_lwip:
-            topology_shell_script = os.path.dirname(os.path.realpath(__file__)) + \
-                "/topology/two_nodes_on_tap_wifi.sh"
-            output = subprocess.call([topology_shell_script])
-        else:
-            topology_shell_script = os.path.dirname(os.path.realpath(__file__)) + \
-                "/topology/two_nodes_on_wifi.sh"
-            output = subprocess.call([topology_shell_script])
+        topology_shell_script = os.path.dirname(os.path.realpath(__file__)) + \
+            "/topology/two_nodes_on_tap_wifi.sh"
+        output = subprocess.call([topology_shell_script])
 
     def tearDown(self):
         # cleaning up
@@ -64,20 +59,30 @@ class test_inet_dns(unittest.TestCase):
         options = happy.HappyNodeList.option()
         options["quiet"] = True
 
-        self.__run_inet_dns_test("node01")
+        value, data = self.__run_inet_dns_test("node01")
+        self.__process_result(value, data)
 
+    def __process_result(self, value, data):
+        """
+        process result returned from inet dns test template
+        """
+        if value:
+            print hgreen("PASSED")
+        else:
+            print hred("FAILED")
+            raise ValueError("Weave Inet DNS Test Failed")
 
     def __run_inet_dns_test(self, node):
         options = WeaveInetDNS.option()
         options["quiet"] = False
         options["node_id"] = node
         options["tap_if"] = "wlan0"
-        options["node_ip"] = "10.0.1.3"
         options["ipv4_gateway"] = "10.0.1.2"
         options["dns"] = "8.8.8.8"
         options["use_lwip"] = self.using_lwip
 
         weave_inet_dns = WeaveInetDNS.WeaveInetDNS(options)
+        weave_inet_dns.node_ip = weave_inet_dns.getNodeAddressesOnPrefix("10.0.1", node)[0]
         ret = weave_inet_dns.run()
 
         value = ret.Value()

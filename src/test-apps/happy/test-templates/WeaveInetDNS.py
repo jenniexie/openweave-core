@@ -60,7 +60,6 @@ class WeaveInetDNS(HappyNode, HappyNetwork, WeaveTest):
         self.quiet = opts["quiet"]
         self.node_id = opts["node_id"]
         self.tap_if = options["tap_if"]
-        self.node_ip = options["node_ip"]
         self.ipv4_gateway =options["ipv4_gateway"]
         self.dns = options["dns"]
         self.use_lwip = options["use_lwip"]
@@ -80,28 +79,30 @@ class WeaveInetDNS(HappyNode, HappyNetwork, WeaveTest):
             self.logger.error("[%s] HappyShell: %s" % (self.node_id, emsg))
             self.exit()
 
-
-    def __process_results(self, output):
+    def __gather_results(self):
         """
-        process test output from DNS resolution test
+        gather result from get_test_output()
         """
-        
-        print "test DNS resolution output=====>"
-        print output
+        quiet = True
+        results = {}
 
-        for line in output.split("\n"):
-            if "Fail" in line:
-                result = False
+        results['status'], results['output'] = self.get_test_output(self.node_id, self.node_process_tag, quiet)
 
-        if self.quiet == False:
-            print "weave-inet dns resolution test on node {}".format(self.node_id)
-            if 'result' in locals() and result is False:
-                print hred("failed")
-            else:
-                print hgreen("passed")
-                result = True
-        return (result, output)
-    
+        return (results)
+
+
+    def __process_results(self, results):
+        """
+        process results from gather_results()
+        """
+        status = False
+        output = ""
+
+        status = (results['status'] == 0)
+
+        output = results['output']
+
+        return (status, output)
 
     def __start_node_dnscheck(self):
         """
@@ -139,7 +140,9 @@ class WeaveInetDNS(HappyNode, HappyNetwork, WeaveTest):
         node_strace_value, node_strace_data = \
             self.get_test_strace(self.node_id, self.node_process_tag, True)
 
-        result, output = self.__process_results(node_output_data)
+        results = self.__gather_results()
+
+        result, output = self.__process_results(results)
 
         data = {}
         data["node_output"] = node_output_data
