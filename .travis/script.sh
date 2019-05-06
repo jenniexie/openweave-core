@@ -58,54 +58,12 @@ gcc_check_happy()
 
 case "${BUILD_TARGET}" in
 
-    linux-auto-clang)
-        ./configure && make && make check
-        ;;
-
-    linux-auto-gcc-check)
-        ./configure --enable-coverage && make && make check
-        ;;
-
     linux-auto-gcc-check-happy)
         gcc_check_happy ${BUILD_TARGET}
         ;;
 
     linux-lwip-gcc-check-happy)
         gcc_check_happy ${BUILD_TARGET}
-        ;;
-
-    linux-lwip-clang)
-        ./configure --with-target-network=lwip --with-lwip=internal --disable-java && make
-        ;;
-
-    linux-lwip-gcc-check)
-        # Note, LwIP requires sudo prior to running 'make check' to ensure the appropriate TUN and bridge interfaces
-        # may be created.
-        ./configure --enable-coverage --with-target-network=lwip --with-lwip=internal --disable-java && make && sudo make check
-        ;;
-
-    osx-auto-clang)
-        ./configure && make
-        ;;
-
-    osx-lwip-clang)
-        ./configure --with-target-network=lwip --with-lwip=internal --disable-java && make
-        ;;
-
-    esp32)
-        .travis/build_esp32.sh
-        ;;
-
-    nrf52840)
-        .travis/build_nrf52840.sh
-        ;;
-
-    linux-auto-*-distcheck)
-        ./configure && make distcheck
-        ;;
-
-    linux-auto-*-lint)
-        ./configure && make pretty-check
         ;;
 
     *)
